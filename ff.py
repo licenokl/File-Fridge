@@ -1,7 +1,6 @@
 import shutil
 import time
 from pathlib import Path
-import sys
 
 def get_fridge_path() -> Path:
     desktop = Path.home() / "Desktop"
@@ -14,7 +13,6 @@ def create_folder():
         (fridge_path / zone).mkdir(exist_ok=True)
     print("Заспавнился холодильник для документации :)")
 
-
 def get_target_zone(file_path: Path) -> str:
     last_modified = file_path.stat().st_mtime
     days_old = (time.time() - last_modified) / (24 * 3600)
@@ -25,7 +23,6 @@ def get_target_zone(file_path: Path) -> str:
         return "fridge"
     else:
         return "freezer"
-
 
 def move_file_safely(file_path: Path, target_zone: str):
     fridge_path = get_fridge_path()
@@ -39,7 +36,6 @@ def move_file_safely(file_path: Path, target_zone: str):
 
     shutil.move(str(file_path), str(new_path))
     print(f"{file_path.name} → {target_zone}")
-
 
 def sort_files_in_fridge_root():
     fridge_path = get_fridge_path()
