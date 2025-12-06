@@ -24,7 +24,7 @@ def get_target_zone(file_path: Path) -> str:
     else:
         return "freezer"
 
-def move_file_safely(file_path: Path, target_zone: str):
+def move_file(file_path: Path, target_zone: str):
     fridge_path = get_fridge_path()
     target_dir = fridge_path / target_zone
     new_path = target_dir / file_path.name
@@ -39,9 +39,6 @@ def move_file_safely(file_path: Path, target_zone: str):
 
 def sort_files_in_fridge_root():
     fridge_path = get_fridge_path()
-    if not fridge_path.exists():
-        return
-
     files_moved = 0
     for item in fridge_path.iterdir():
         if not item.is_file():
@@ -52,7 +49,7 @@ def sort_files_in_fridge_root():
 
         try:
             zone = get_target_zone(item)
-            move_file_safely(item, zone)
+            move_file(item, zone)
             files_moved += 1
         except Exception as e:
             print(f"Ошибка с файлом {item.name}: {e}")
@@ -68,5 +65,5 @@ if __name__ == "__main__":
             time.sleep(60)
             sort_files_in_fridge_root()
         except KeyboardInterrupt:
-            print("\nОстановлено пользователем.")
+            print("\nТы остановил холодильник. Сейчас все испортится...")
             break
